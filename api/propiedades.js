@@ -1,9 +1,11 @@
-import fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
+  // Pega aquí tu token de EasyBroker (o mejor: usa una ENV var)
   const EASYBROKER_TOKEN = 'TU_EASYBROKER_ACCESS_TOKEN';
   const authHeader = 'Basic ' + Buffer.from(EASYBROKER_TOKEN).toString('base64');
 
+  // CORS preflight
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
@@ -12,14 +14,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    const respuesta = await fetch('https://api.easybroker.com/v1/properties', {
+    const response = await fetch('https://api.easybroker.com/v1/properties', {
       headers: { Authorization: authHeader },
     });
-    const json = await respuesta.json();
+    const json = await response.json();
+
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.status(200).json(json.data);
-  } catch (error) {
-    console.error('❌ Error proxy EasyBroker:', error);
-    res.status(500).json({ error: 'No se pudo obtener propiedades' });
+    return res.status(200).json(json.data);
+  } catch (err) {
+    console.error('❌ Error proxy EasyBroker:', err);
+    return res.status(500).json({ error: 'No se pudo obtener propiedades' });
   }
-}
+};
