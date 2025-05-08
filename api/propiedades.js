@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 module.exports = async function handler(req, res) {
   // Pega aquí tu token de EasyBroker (o mejor: usa una ENV var)
-  const EASYBROKER_TOKEN = 'TU_EASYBROKER_ACCESS_TOKEN';
+ const EASYBROKER_TOKEN = process.env.EASYBROKER_TOKEN;
   const authHeader = 'Basic ' + Buffer.from(EASYBROKER_TOKEN).toString('base64');
 
   // CORS preflight
