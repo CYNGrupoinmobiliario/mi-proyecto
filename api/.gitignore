@@ -1,0 +1,12 @@
+# Ignorar dependencias
+node_modules/
+
+# Variables de entorno
+.env
+
+# Despliegues locales
+.vercel/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
